@@ -28,4 +28,5 @@ Route::prefix('user')->group(function(){
 Route::prefix('service_order')->group(function(){
     Route::get('/index', [ServiceOrderController::class, 'index'])->name('api.service.order.index');
     Route::post('/store', [ServiceOrderController::class, 'store'])->name('api.service.order.store');
+    Route::post('/filter', [ServiceOrderController::class, 'filter'])->name('api.service.order.filter');
 });

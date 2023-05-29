@@ -54,7 +54,7 @@ class ServiceOrderController extends Controller
 
             if(sizeof($serviceOrders))
             {
-                return $serviceOrders;
+                return response()->json($serviceOrders);
             }
 
         } catch (\Throwable $th) {
@@ -66,4 +66,35 @@ class ServiceOrderController extends Controller
             );
         }
     }
+
+    public function filter(Request $request)
+    {
+        try{
+            $serviceOrder = ServiceOrder::query()->with('user');
+
+        if($request->has('name'))
+        {
+            $filter = $request->input('name');
+            $serviceOrder->where('name', $filter);
+        }
+
+        if($request->has('vehiclePlate'))
+        {
+            $filter = $request->input('vehiclePlate');
+            $serviceOrder->where('vehiclePlate', $filter);
+        }
+
+        $data = $serviceOrder->paginate($request->input('limit', 20));
+
+        return response()->json($data);
+
+    }catch (\Throwable $th) {
+
+
+        throw new Exception(
+            "Não foi possível listar as ordens de serviços: {$th->getMessage()}",
+            500
+        );
+    }
+        }
 }
