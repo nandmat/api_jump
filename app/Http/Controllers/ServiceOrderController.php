@@ -72,19 +72,13 @@ class ServiceOrderController extends Controller
         try{
             $serviceOrder = ServiceOrder::query()->with('user');
 
-        if($request->has('name'))
-        {
-            $filter = $request->input('name');
-            $serviceOrder->where('name', $filter);
-        }
-
         if($request->has('vehiclePlate'))
         {
             $filter = $request->input('vehiclePlate');
             $serviceOrder->where('vehiclePlate', $filter);
         }
 
-        $data = $serviceOrder->paginate($request->input('limit', 20));
+        $data = $serviceOrder->paginate($request->input('limit', 5));
 
         return response()->json($data);
 
@@ -96,5 +90,5 @@ class ServiceOrderController extends Controller
             500
         );
     }
-        }
+}
 }
